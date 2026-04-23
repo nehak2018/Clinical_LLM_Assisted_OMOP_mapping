@@ -1,0 +1,17 @@
+omop_app/
+│
+├── app/
+│   └── main.py
+│
+├── data/
+│   ├── __init__.py
+│   └── sample.py   ✅
+│
+├── config/
+│   ├── __init__.py
+│   └── settings.py
+│
+├── src/
+│   ├── __init__.py
+│   ├── llms/
+│   └── utils/

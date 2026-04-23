@@ -1,0 +1,62 @@
+omop-llm-mapper/
+│
+├── app/                        # Streamlit UI
+│   ├── main.py
+│   ├── pages/
+│   │   ├── 1_Interactive_Demo.py
+│   │   ├── 2_Batch_Evaluation.py
+│   │   └── 3_Error_Analysis.py
+│   └── components/
+│       ├── input_box.py
+│       ├── results_table.py
+│       └── charts.py
+│
+├── src/                        # Core logic (VERY IMPORTANT)
+│   ├── extraction/
+│   │   ├── rule_based.py
+│   │   ├── hf_model.py
+│   │   └── llm_model.py
+│   │
+│   ├── mapping/
+│   │   ├── athena_lookup.py
+│   │   ├── fuzzy_match.py
+│   │   └── concept_mapper.py
+│   │
+│   ├── preprocessing/
+│   │   ├── clean_text.py
+│   │   └── negation_detection.py
+│   │
+│   ├── evaluation/
+│   │   ├── metrics.py
+│   │   ├── scorer.py
+│   │   └── error_analysis.py
+│   │
+│   └── pipeline/
+│       └── run_pipeline.py
+│
+├── data/                       # Data layer
+│   ├── raw/
+│   │   └── mimic_sample.csv
+│   ├── processed/
+│   │   └── mapped_data.csv
+│   └── vocab/
+│       └── concept.csv         # from Athena
+│
+├── notebooks/                  # Research & experiments
+│   └── exploration.ipynb
+│
+├── tests/                      # Unit tests
+│   ├── test_mapping.py
+│   ├── test_extraction.py
+│   └── test_evaluation.py
+│
+├── config/                     # Config files
+│   └── settings.yaml
+│
+├── scripts/                    # Utility scripts
+│   ├── download_athena.py
+│   └── preprocess_data.py
+│
+├── requirements.txt
+├── README.md
+└── .env                        # API keys (LLM, etc.)
