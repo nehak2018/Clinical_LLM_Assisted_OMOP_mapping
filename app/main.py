@@ -5,11 +5,10 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 import streamlit as st
 from concurrent.futures import ThreadPoolExecutor, as_completed
-
-from src.llms.engine import rule_based, hf_model, call_ollama
+from src.llms.engine import rule_based, hf_model, call_ollama, parse_llm_output
 from src.utils.hf_loader import load_model
 from src.utils.mapping import map_to_omop
-
+import pandas as pd
 
 st.set_page_config(layout="wide")
 st.title("🧠 OMOP Multi-LLM Playground")
@@ -176,18 +175,31 @@ st.subheader("📊 Outputs")
 for model, preds in st.session_state.results.items():
     st.markdown(f"### {model}")
     st.write("Raw output:", preds)
-    st.write("ICD:", preds[0])
-    
     #Write a logic for directly llm promt with concept mapping for NON-Grounded pipeline
-    st.write("Non grounded pipeline:")
-    st.write("Coming soon:")
+    #st.write("Non grounded pipeline:")
+    #st.write("ICD:", preds[0])
+    parsed = parse_llm_output(preds)
+    st.subheader("📊 Extracted NON Grounded Diagnoses + ICD + OMOP")
+    if parsed:
+        df = pd.DataFrame(parsed)
+        st.dataframe(
+            df.rename(columns={
+            "diagnosis": "Diagnosis",
+            "icd10": "ICD-10 Code",
+            "omop_concept_id": "OMOP Concept ID"
+            }),
+        use_container_width=False
+        )
     
-
+    st.write("Coming soon:")
     st.write("Grounded pipeline:")
-    #here it is taking it from Hardcoded sample.py which will be using by Athena which will be grounded pipeline
-    st.write("OMOP:", map_to_omop(preds[0]))
-    #Actual mapping from CSV
 
+
+    #----------------------------------------------------------------------------------------------
+    #st.write("OMOP:", map_to_omop(preds[0]))
+    #here it is taking it from Hardcoded sample.py which will be using by Athena which will be grounded pipeline
+    #st.write("OMOP:", map_to_omop(preds[0]))
+    #Actual mapping from CSV
     #omop_results = lookup_icd_to_omop(preds)
     #st.write("OMOP:")
     #st.json(omop_results)

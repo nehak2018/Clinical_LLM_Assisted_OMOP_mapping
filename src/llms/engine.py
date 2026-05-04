@@ -2,62 +2,39 @@ import re
 import requests
 from config.settings import PROMPT
 
-PROMPT_old = """
-Extract clinical diagnoses from the note.
-Return ONLY ICD-10 codes as a Python list.
-Example: ["E11.9", "I10"]
-"""
 
-PROMPT = """
-You are a clinical coding assistant.
+
+# =========================
+# PROMPT
+# =========================
+PROMPT_for_non_grounded = """
+You are an expert clinical coding and OMOP mapping assistant.
 
 Task:
-Extract ALL clinical diagnoses and ICD-10 codes from notes.
+Extract ALL clinically relevant diagnoses from the clinical note and return:
+1. Diagnosis
+2. ICD-10 code
+3. OMOP Concept ID (best match)
 
-STRICT RULES:
-- Include ALL conditions (not just one)
-- Return ICD-10 codes
-- Use most specific codes (e.g., E11.9, I10)
-- Only use diagnoses clearly mentioned
-
-Return format:
-["I10", "I21.9"]
-
-If uncertain, return empty list.
-"""
-
-PROMPT_getiing_but_hallucinating = """
-You are a clinical coding assistant.
-
-Extract ALL clinical diagnoses and ICD-10 codes from notes.
-
-Rules:
-- Include ALL conditions (not just one)
-- Return ICD-10 codes
-- Use most specific codes (e.g., E11.9, I10)
+Instructions:
+- Include ALL diagnoses explicitly stated or strongly implied
+- Include chronic diseases, current diagnoses, and past medical history
+- Use MOST SPECIFIC ICD-10 code possible
+- Include multiple diagnoses when present
+- Infer likely diagnoses when clinically supported
+- Return ONLY a Python-style list of dictionaries
 - No explanation
+- No markdown
+- No commentary
 
-Output:
-["E11.9", "I10"]
+Output Example:
+[
+ {"diagnosis":"Type 2 diabetes mellitus","icd10":"E11.9","omop_concept_id":201826},
+ {"diagnosis":"Essential hypertension","icd10":"I10","omop_concept_id":320128}
+]
+
+Clinical Note:
 """
-
-PROMPT_Giving_only_one_condition ="""
-You are a clinical coding assistant.
-
-Extract ICD-10 codes from the note.
-
-
-STRICT RULES:
-- Return ONLY valid ICD-10 codes
-- Codes MUST include decimals where applicable (e.g., E11.9, not E11)
-- Do NOT return category codes like E11 or I10 without specificity
-- No explanation
-
-Output format:
-["E11.9", "I10"]
-"""
-
-
 
 
 
@@ -96,24 +73,141 @@ def hf_model(text, hf_pipeline):
 
     return list(set(icds))
 
-""" 
-def call_ollama(model, text):
+
+
+def call_ollama(model, note):
     try:
-        r = requests.post(
+        response = requests.post(
             "http://localhost:11434/api/generate",
             json={
                 "model": model,
-                "prompt": PROMPT + "\n\n" + text,
+                "prompt": PROMPT_for_non_grounded + "\n\n" + note,
                 "stream": False
             },
             timeout=120
         )
-        output = r.json()["response"]
-        return list(set(re.findall(r"[A-Z]\d{1,2}\.?\d*", output)))
+
+        output = response.json().get("response", "")
+
+        # Extract ICD codes
+        #codes = re.findall(r"[A-Z]\d{1,2}(?:\.\d+)?", output)
+        #codes = sorted(list(set(codes)))
+        #return list(set(codes)), output
+        return output
+    except Exception as e:
+        return [], str(e)
+
+
+def parse_llm_output(raw_output):
+    """
+    Parse LLM output into structured OMOP records.
+
+    Handles:
+    - raw string JSON
+    - JSON embedded inside text
+    - tuple outputs (codes, text)
+    - minor formatting issues
+    """
+
+    # -----------------------------
+    # 1. Handle tuple input safely
+    # -----------------------------
+    if isinstance(raw_output, tuple):
+        raw_output = raw_output[1]  # take LLM text only
+
+    if raw_output is None:
+        return []
+
+    raw_output = str(raw_output)
+
+    try:
+        # -----------------------------------------
+        # 2. Extract JSON array from messy output
+        # -----------------------------------------
+        start = raw_output.find("[")
+        end = raw_output.rfind("]") + 1
+
+        if start == -1 or end == 0:
+            raise ValueError("No JSON array found")
+
+        json_str = raw_output[start:end]
+
+        # Fix common LLM formatting issues
+        json_str = json_str.replace("'", '"')
+
+        data = json.loads(json_str)
+
+        # -----------------------------------------
+        # 3. Validate structure
+        # -----------------------------------------
+        if isinstance(data, dict):
+            data = [data]
+
+        return data
+
+    except Exception:
+        # -----------------------------------------
+        # 4. Fallback regex extraction
+        # -----------------------------------------
+        diagnoses = re.findall(r'"diagnosis"\s*:\s*"([^"]+)"', raw_output)
+        icds = re.findall(r'"icd10"\s*:\s*"([A-Z]\d{1,2}(?:\.\d+)?)"', raw_output)
+        omops = re.findall(r'"omop_concept_id"\s*:\s*(\d+)', raw_output)
+
+        results = []
+
+        for i in range(min(len(diagnoses), len(icds), len(omops))):
+            results.append({
+                "diagnosis": diagnoses[i],
+                "icd10": icds[i],
+                "omop_concept_id": int(omops[i])
+            })
+
+        return results
+
+
+'''
+
+# =========================
+# PARSER
+# =========================
+def parse_llm_output(raw_output):
+    """
+    Attempts to extract list of dictionaries from LLM output.
+    Falls back to regex if formatting is messy.
+    """
+    try:
+        # Extract probable list block
+        start = raw_output.find("[")
+        end = raw_output.rfind("]") + 1
+
+        parsed_text = raw_output[start:end]
+
+        # Convert single quotes to double quotes if needed
+        parsed_text = parsed_text.replace("'", '"')
+
+        data = json.loads(parsed_text)
+
+        return data
+
     except:
-        return [] """
+        # Fallback regex extraction
+        diagnoses = re.findall(r'"diagnosis":\s*"([^"]+)"', raw_output)
+        icds = re.findall(r'"icd10":\s*"([A-Z]\d{2}(?:\.\d+)?)"', raw_output)
+        omops = re.findall(r'"omop_concept_id":\s*(\d+)', raw_output)
+
+        results = []
+
+        for i in range(min(len(diagnoses), len(icds), len(omops))):
+            results.append({
+                "diagnosis": diagnoses[i],
+                "icd10": icds[i],
+                "omop_concept_id": int(omops[i])
+            })
+
+        return results
 
 
+Backup
 def call_ollama(model, note):
     try:
         response = requests.post(
@@ -137,3 +231,4 @@ def call_ollama(model, note):
 
     except Exception as e:
         return [], str(e)
+'''

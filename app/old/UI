@@ -1,0 +1,16 @@
+    '''
+    st.subheader("🏷 Diagnosis")
+    diagnosis = df["diagnosis"].dropna().tolist()
+    formatted = "[\n" + "\n".join([f'{i}: "{c}"' for i, c in enumerate(diagnosis)]) + "\n]"
+    st.code(formatted)
+
+    st.subheader("🏷 ICD Codes")
+    icd_codes = df["icd10"].dropna().tolist()
+    formatted = "[\n" + "\n".join([f'{i}: "{c}"' for i, c in enumerate(icd_codes)]) + "\n]"
+    st.code(formatted)
+
+    st.subheader("🏷 OMOP Concept ID")
+    omop_concept_id = df["omop_concept_id"].dropna().tolist()
+    formatted = "[\n" + "\n".join([f'{i}: "{c}"' for i, c in enumerate(omop_concept_id)]) + "\n]"
+    st.code(formatted)
+    '''

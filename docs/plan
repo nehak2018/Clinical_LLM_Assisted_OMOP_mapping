@@ -1,0 +1,19 @@
+
+Best one-month implementation:
+Phase 1:
+
+LLM extracts:
+
+Condition
+Procedure
+Drug
+Phase 2:
+
+Athena lookup by extracted phrase
+
+Phase 3:
+
+Evaluate:
+
+Did extraction find right condition?
+Did lookup choose correct OMOP standard?
