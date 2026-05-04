@@ -1,9 +1,66 @@
 import re
 import requests
-from config.settings import LLM_CONFIG, PROMPT
-from data.sample import ICD_TO_OMOP
+from config.settings import PROMPT
 
-# simple mapping
+PROMPT_old = """
+Extract clinical diagnoses from the note.
+Return ONLY ICD-10 codes as a Python list.
+Example: ["E11.9", "I10"]
+"""
+
+PROMPT = """
+You are a clinical coding assistant.
+
+Task:
+Extract ALL clinical diagnoses and ICD-10 codes from notes.
+
+STRICT RULES:
+- Include ALL conditions (not just one)
+- Return ICD-10 codes
+- Use most specific codes (e.g., E11.9, I10)
+- Only use diagnoses clearly mentioned
+
+Return format:
+["I10", "I21.9"]
+
+If uncertain, return empty list.
+"""
+
+PROMPT_getiing_but_hallucinating = """
+You are a clinical coding assistant.
+
+Extract ALL clinical diagnoses and ICD-10 codes from notes.
+
+Rules:
+- Include ALL conditions (not just one)
+- Return ICD-10 codes
+- Use most specific codes (e.g., E11.9, I10)
+- No explanation
+
+Output:
+["E11.9", "I10"]
+"""
+
+PROMPT_Giving_only_one_condition ="""
+You are a clinical coding assistant.
+
+Extract ICD-10 codes from the note.
+
+
+STRICT RULES:
+- Return ONLY valid ICD-10 codes
+- Codes MUST include decimals where applicable (e.g., E11.9, not E11)
+- Do NOT return category codes like E11 or I10 without specificity
+- No explanation
+
+Output format:
+["E11.9", "I10"]
+"""
+
+
+
+
+
 TEXT_TO_ICD = {
     "diabetes": "E11.9",
     "hypertension": "I10",
@@ -11,10 +68,7 @@ TEXT_TO_ICD = {
     "chest pain": "I21.9",
 }
 
-# -------------------------
-# RULE
-# -------------------------
-def rule_model(text):
+def rule_based(text):
     t = text.lower()
     if "no evidence" in t:
         return []
@@ -30,9 +84,6 @@ def rule_model(text):
     return list(set(out))
 
 
-# -------------------------
-# HF
-# -------------------------
 def hf_model(text, hf_pipeline):
     entities = hf_pipeline(text)
     terms = [e["word"].lower() for e in entities]
@@ -45,10 +96,7 @@ def hf_model(text, hf_pipeline):
 
     return list(set(icds))
 
-
-# -------------------------
-# OLLAMA
-# -------------------------
+""" 
 def call_ollama(model, text):
     try:
         r = requests.post(
@@ -63,23 +111,29 @@ def call_ollama(model, text):
         output = r.json()["response"]
         return list(set(re.findall(r"[A-Z]\d{1,2}\.?\d*", output)))
     except:
-        return []
+        return [] """
 
 
-# -------------------------
-# UNIVERSAL RUNNER
-# -------------------------
-def run_model(name, text, hf_pipeline=None):
-    config = LLM_CONFIG[name]
-    t = config["type"]
+def call_ollama(model, note):
+    try:
+        response = requests.post(
+            "http://localhost:11434/api/generate",
+            json={
+                "model": model,
+                "prompt": PROMPT + "\n\n" + note,
+                "stream": False
+            },
+            timeout=120
+        )
 
-    if t == "rule":
-        return rule_model(text)
+        output = response.json().get("response", "")
 
-    elif t == "hf":
-        return hf_model(text, hf_pipeline)
+        # Extract ICD codes
+        codes = re.findall(r"[A-Z]\d{1,2}(?:\.\d+)?", output)
 
-    elif t == "ollama":
-        return call_ollama(config["model"], text)
+        codes = sorted(list(set(codes)))
 
-    return []
+        return list(set(codes)), output
+
+    except Exception as e:
+        return [], str(e)

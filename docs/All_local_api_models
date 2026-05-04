@@ -1,0 +1,38 @@
+🧠 Step 1 — Categorize Your Models
+🔵 1. API-based (real, but require keys)
+GPT-4
+GPT-3.5
+Claude 3 Opus
+Claude 3 Sonnet
+Claude 3 Haiku
+Gemini
+Gemini Advanced
+PaLM 2
+Cohere Command
+
+👉 These require API integration
+
+🟢 2. Local (you can run today)
+Llama 3 70B (heavy)
+Llama 3 8B
+Mistral 7B
+
+👉 via Ollama
+
+🟡 3. NLP / Encoder models
+RoBERTa
+
+👉 Hugging Face
+
+🔴 4. Legacy / not directly usable
+Claude 1.x / 2.x
+Some PaLM versions
+
+👉 Use as reference scores only (don’t run)
+
+🚀 Step 2 — How to include ALL models in your app
+✅ Strategy
+Type	Action
+Local	Run
+API	Optional (plug later)
+Legacy	Show benchmark only

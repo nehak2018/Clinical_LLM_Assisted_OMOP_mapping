@@ -1,0 +1,62 @@
+🧪 1. Simple (baseline test)
+Patient is a 58-year-old male with a history of type 2 diabetes mellitus and hypertension. Blood glucose remains poorly controlled.
+
+👉 Expected ICD:
+
+E11.9 (Type 2 diabetes)
+I10 (Hypertension)
+🧪 2. Moderate complexity
+A 67-year-old female presents with chest pain and shortness of breath. Past medical history significant for hypertension and myocardial infarction. ECG suggests possible ischemia.
+
+👉 Expected ICD:
+
+I10 (Hypertension)
+I21.9 (Myocardial infarction)
+🧪 3. Multiple conditions
+Patient with long-standing diabetes mellitus, hypertension, and hyperlipidemia presents for routine follow-up. No acute complaints.
+
+👉 Expected ICD:
+
+E11.9
+I10
+(Hyperlipidemia if you map it later)
+🧪 4. With negation (important test)
+Patient denies history of diabetes or hypertension. Reports mild headache but no chronic illnesses.
+
+👉 Expected ICD:
+
+❌ NONE
+👉 (This tests if your model wrongly extracts false positives)
+🧪 5. Noisy real-world note
+Pt is a 72 y/o M w/ hx of DM2, HTN, and CAD. Presents w/ intermittent CP. Labs pending. Continue meds.
+
+👉 Expected ICD:
+
+E11.9
+I10
+I21.9 (if chest pain interpreted as cardiac)
+🧪 6. Complex clinical note
+The patient is a 65-year-old male with a history of type 2 diabetes mellitus, hypertension, and prior myocardial infarction, presenting with worsening chest pain over the last 24 hours. He reports noncompliance with medications.
+
+👉 Expected ICD:
+
+E11.9
+I10
+I21.9
+🧪 7. Edge case (ambiguous language)
+Borderline elevated blood pressure noted. Patient at risk for diabetes but not formally diagnosed.
+
+👉 Expected ICD:
+
+❌ Ideally NONE
+👉 (Tests over-prediction)
+🧪 8. Mixed structured + free text
+Assessment:
+1. Type 2 Diabetes Mellitus – uncontrolled
+2. Hypertension – stable
+Plan: Adjust medications
+
+👉 Expected ICD:
+
+E11.9
+I10

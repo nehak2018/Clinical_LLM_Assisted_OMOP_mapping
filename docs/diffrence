@@ -1,0 +1,202 @@
+“Evaluating the OHDSI Phenotype Library concept sets using Large Language Models”
+Focus:
+
+
+Uses LLMs to analyze/evaluate existing phenotype concept sets
+
+
+Checks whether source codes and mapped standard concepts properly capture intended clinical events
+
+
+Likely emphasizes:
+
+
+Quality review
+
+
+Coverage/completeness
+
+
+Concept set validation
+
+
+Interpretability of phenotype definitions
+
+
+
+
+In short:
+LLM as evaluator / reviewer of phenotype concept sets
+
+What your project idea is
+“LLM-assisted OMOP concept mapping with validation and benchmarking against curated vocabularies”
+Focus:
+
+
+Takes raw clinical text / diagnosis / notes
+
+
+Extracts diagnoses
+
+
+Maps to:
+
+
+ICD
+
+
+SNOMED
+
+
+OMOP Standard Concepts
+
+
+
+
+Grounds against:
+
+
+Athena
+
+
+Usagi
+
+
+curated vocabularies
+
+
+
+
+Benchmarks:
+
+
+GPT
+
+
+Llama
+
+
+ClinicalBERT / MedAlpaca / BioMistral etc.
+
+
+
+
+In short:
+LLM as mapper + extractor + benchmarked coding system
+
+Key Difference
+Their work:
+“Are existing OHDSI phenotype concept sets semantically correct and complete?”
+Your work:
+“Can LLMs accurately extract and map clinical concepts into OMOP better/faster than traditional pipelines?”
+
+Why your project is still novel
+You are broader and more implementation-heavy:
+You could include:
+
+
+Note → diagnosis extraction
+
+
+Diagnosis → ICD/SNOMED/OMOP mapping
+
+
+Grounded vocabulary retrieval
+
+
+Hallucination control
+
+
+Multi-model benchmarking
+
+
+Human-in-the-loop validation
+
+
+This becomes:
+“End-to-End Clinical LLM OMOP Mapping Benchmark”
+That’s potentially more operational for hospitals / ETL / research pipelines.
+
+How to differentiate clearly for showcase/paper
+Position it as:
+“Beyond phenotype concept evaluation: benchmarking LLMs for grounded clinical concept extraction and OMOP standardization”
+
+Strong research questions
+
+
+Can LLMs accurately identify diagnoses from free text?
+
+
+Can they map to OMOP standard concepts reliably?
+
+
+How often do they hallucinate unsupported codes?
+
+
+Does RAG/Athena grounding reduce hallucinations?
+
+
+Which models perform best:
+
+
+OpenAI GPT
+
+
+Meta Platforms Llama
+
+
+Microsoft BioGPT
+
+
+Clinical domain models
+
+
+
+
+
+Best strategy:
+Don’t compete directly — complement it.
+You can say:
+
+“Building on OHDSI’s exploration of LLMs for phenotype library evaluation, this project investigates whether LLMs can reliably automate concept extraction and OMOP mapping from raw clinical narratives.”
+
+
+Opportunity:
+Because Dmitry’s team is already exploring LLMs in OHDSI:
+This means:
+
+
+Your topic is timely
+
+
+OHDSI may be receptive
+
+
+You can network with them
+
+
+Your project may fill the “mapping pipeline” gap
+
+
+
+Recommended next step
+For your proposal:
+Track A:
+Phenotype concept evaluation (their lane)
+Track B:
+Clinical text → OMOP concept extraction + benchmarking (your lane)
+
+Bottom line:
+Similar domain:
+Yes
+Same project:
+No
+Competitive overlap:
+Partial
+Novel angle:
+Your end-to-end grounded benchmarking approach is still distinct and potentially stronger for practical deployment.
+
+My recommendation:
+Frame your project as:
+“Grounded LLM Benchmarking for Clinical Concept Extraction and OMOP Standardization”
+That keeps you aligned with OHDSI’s current momentum while carving out your own research identity.

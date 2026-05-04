@@ -1,0 +1,22 @@
+omop_app/
+│
+├── app/
+│   ├── main.py
+│   └── pages/
+│       └── 1_Benchmark.py
+│
+├── src/
+│   ├── llms/
+│   │   └── engine.py
+│   └── utils/
+│       ├── hf_loader.py
+│       ├── metrics.py
+│       └── mapping.py
+│
+├── data/
+│   └── sample.py
+│
+├── config/
+│   └── settings.py
+│
+├── requirements.txt
