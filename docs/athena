@@ -1,0 +1,173 @@
+
+Clinical Note
+   ↓
+Llama 3.2
+   ↓
+ICD-10 Codes
+   ↓
+Athena / OMOP Vocabulary Lookup
+   ↓
+Standard Concept IDs
+
+
+🚨 Important Reality First
+
+Athena does NOT provide a simple free public API for direct live lookup like Google search.
+
+So most practical options are:
+✅ Option A (Recommended now):
+
+Use local OMOP vocabulary CSVs downloaded from
+OHDSI Athena
+
+⚡ Option B:
+
+Use your OMOP database concept + concept_relationship tables directly
+
+🚀 BEST PATH FOR YOU RIGHT NOW:
+Start with local CSV lookup
+🥇 STEP 1 — Download from Athena
+
+From Athena vocabulary:
+
+Files:
+CONCEPT.csv
+CONCEPT_RELATIONSHIP.csv
+
+You’ll mainly use:
+
+CONCEPT.csv
+
+Contains:
+
+concept_id
+concept_code
+concept_name
+vocabulary_id
+📁 Suggested structure:
+project/
+ ┣ data/
+ ┃ ┗ athena/
+ ┃    ┗ CONCEPT.csv
+🥈 STEP 2 — Create OMOP lookup utility
+📄 src/utils/athena_lookup.py
+import pandas as pd
+
+# Load once
+concept_df = pd.read_csv("data/athena/CONCEPT.csv", sep="\t", low_memory=False)
+
+def lookup_icd_to_omop(icd_codes):
+    results = []
+
+    for code in icd_codes:
+
+        matches = concept_df[
+            (concept_df["concept_code"] == code) &
+            (concept_df["vocabulary_id"].str.contains("ICD", na=False))
+        ]
+
+        if not matches.empty:
+            top = matches.iloc[0]
+
+            results.append({
+                "icd_code": code,
+                "concept_id": top["concept_id"],
+                "concept_name": top["concept_name"],
+                "vocabulary": top["vocabulary_id"]
+            })
+
+    return results
+🥉 STEP 3 — Plug into your current main.py
+Replace:
+st.write("OMOP:", map_to_omop(preds))
+With:
+from src.utils.athena_lookup import lookup_icd_to_omop
+
+omop_results = lookup_icd_to_omop(preds)
+
+st.write("OMOP Results:")
+st.json(omop_results)
+🧪 Example Output
+
+If Llama gives:
+
+["E11.9", "I10"]
+
+You get:
+
+[
+  {
+    "icd_code": "E11.9",
+    "concept_id": 201826,
+    "concept_name": "Type 2 diabetes mellitus without complication"
+  },
+  {
+    "icd_code": "I10",
+    "concept_id": 320128,
+    "concept_name": "Essential hypertension"
+  }
+]
+🧠 STEP 4 — Better Streamlit display
+import pandas as pd
+
+if omop_results:
+    st.dataframe(pd.DataFrame(omop_results))
+🚀 Optional Upgrade — Standard Concepts Only
+
+Sometimes ICD codes are non-standard source concepts.
+
+Filter:
+
+(concept_df["standard_concept"] == "S")
+⚠️ Common issue
+ICD may map to source concept, not standard OMOP
+
+For full OMOP standardization:
+
+Use CONCEPT_RELATIONSHIP.csv
+
+Relationship:
+
+Maps to
+🥇 Simple first version:
+ICD → Concept ID
+
+(Enough for demo)
+
+🥈 Advanced version:
+ICD → Standard SNOMED OMOP
+
+(Better for publication)
+
+🏥 Why this matters
+
+This turns your project from:
+
+“LLM predicts codes”
+
+Into:
+
+“LLM-assisted OMOP concept mapping system”
+
+That is significantly stronger for
+OHDSI
+
+🚀 NEXT (recommended after this)
+
+I strongly suggest:
+
+🔥 Add concept_relationship (“Maps to”)
+
+So:
+
+I10 → SNOMED standard concept
+👍 If you want next
+
+I can help you build:
+
+👉 
+Full AthenaLookup class
+👉 
+Standard concept mapping (Maps to)
+👉 
+Streamlit OMOP explorer page

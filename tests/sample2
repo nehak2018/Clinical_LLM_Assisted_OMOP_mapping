@@ -1,0 +1,89 @@
+1. EASY CASE (should be stable across all systems)
+Note 1
+
+Patient with long-standing type 2 diabetes mellitus on metformin. No complications reported.
+
+Expected concept:
+E11.9 (Type 2 diabetes mellitus without complications)
+🧪 2. MODERATE CASE (tests over-specific ICD risk)
+Note 2
+
+Patient with type 2 diabetes and diabetic neuropathy. Complains of numbness in feet.
+
+Expected:
+E11.40 (Type 2 diabetes with neuropathy)
+🧪 3. AMBIGUOUS CASE (tests grounding value)
+Note 3
+
+Patient has diabetes mellitus. Poorly controlled blood sugar. No complications documented.
+
+Possible LLM error:
+E11.65 (with hyperglycemia) ❌ or E11.9 ✔ depending on system
+🧪 4. HIGH-RISK MISCLASSIFICATION (key for grounding)
+Note 4
+
+Patient presents with chest pain, elevated troponin, and ST elevation on ECG.
+
+Expected:
+I21.0 (acute transmural MI)
+Common LLM mistake:
+I20.9 (angina) ❌
+🧪 5. VERY TRICKY (tests ontology precision)
+Note 5
+
+Patient with type 2 diabetes during pregnancy, diagnosed in second trimester.
+
+Expected:
+O24.1 (pre-existing diabetes in pregnancy)
+LLM risk:
+E11.9 ❌ (misses pregnancy context)
+🧪 6. MULTI-CONDITION NOTE (tests selection behavior)
+Note 6
+
+Patient with hypertension and type 2 diabetes. Also has chronic kidney disease stage 3.
+
+Expected candidates:
+I10 (hypertension)
+E11.22 (diabetes with CKD)
+N18.3 (CKD stage 3)
+🧪 7. EDGE CASE (tests specificity bias in ranking)
+Note 7
+
+Type 2 diabetes mellitus.
+
+(no complications mentioned)
+
+Expected:
+E11.9 (NOT E11 or complication codes)
+🧪 8. NOISY CLINICAL TEXT (real-world robustness)
+Note 8
+
+67-year-old male hx DM2, HTN, admits fatigue, labs show elevated glucose, no acute complications noted.
+
+Expected:
+E11.9 or E11.65 depending on interpretation
+🧪 9. CONFLICTING SIGNALS (hard grounding test)
+Note 9
+
+Patient has diabetes with possible neuropathy, but symptoms unclear.
+
+Expected:
+system should prefer base + cautious specificity:
+E11.9 or E11.40 (uncertain case)
+🧪 10. CLASSIC MISLEADING LEXICAL CASE
+Note 10
+
+Patient with history of “diabetic eye changes” but no active complications.
+
+Trap:
+E11.36 (cataract) ❌ if over-interpreted
+📊 What these tests show
+Non-grounded LLM:
+Overconfident ICD selection
+hallucinated specificity
+Athena-validated:
+fewer invalid codes
+still semantically wrong sometimes
+True grounded:
+better handling of ambiguity
+more conservative + context-aware selection

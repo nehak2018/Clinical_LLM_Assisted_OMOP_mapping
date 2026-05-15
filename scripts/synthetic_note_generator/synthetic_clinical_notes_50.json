@@ -1,0 +1,857 @@
+[
+  {
+    "note_id": 0,
+    "age": 85,
+    "sex": "female",
+    "note": "CHIEF COMPLAINT: fatigue, weight gain, mild nausea. HPI: 85-year-old female with fatigue, weight gain, mild nausea. ASSESSMENT: Likely Obesity. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Obesity"
+    ],
+    "gold_icd10": [
+      "E66.9"
+    ],
+    "gold_concept_ids": [
+      432851
+    ]
+  },
+  {
+    "note_id": 1,
+    "age": 77,
+    "sex": "male",
+    "note": "CHIEF COMPLAINT: wheezing, heartburn, mild nausea, chest discomfort, chest tightness. HPI: 77-year-old male with wheezing, heartburn, mild nausea, chest discomfort, chest tightness. ASSESSMENT: Likely Asthma, Gastroesophageal reflux disease. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Asthma",
+      "Gastroesophageal reflux disease"
+    ],
+    "gold_icd10": [
+      "J45.909",
+      "K21.9"
+    ],
+    "gold_concept_ids": [
+      317009,
+      314658
+    ]
+  },
+  {
+    "note_id": 2,
+    "age": 52,
+    "sex": "female",
+    "note": "CHIEF COMPLAINT: wheezing, heartburn, mild nausea, chest discomfort, chest tightness. HPI: 52-year-old female with wheezing, heartburn, mild nausea, chest discomfort, chest tightness. ASSESSMENT: Likely Gastroesophageal reflux disease, Asthma. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Gastroesophageal reflux disease",
+      "Asthma"
+    ],
+    "gold_icd10": [
+      "K21.9",
+      "J45.909"
+    ],
+    "gold_concept_ids": [
+      314658,
+      317009
+    ]
+  },
+  {
+    "note_id": 3,
+    "age": 37,
+    "sex": "male",
+    "note": "CHIEF COMPLAINT: shortness of breath, normal appetite, low-grade fever, fever, cough. HPI: 37-year-old male with shortness of breath, normal appetite, low-grade fever, fever, cough. ASSESSMENT: Likely Pneumonia, Acute bronchitis. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Pneumonia",
+      "Acute bronchitis"
+    ],
+    "gold_icd10": [
+      "J18.9",
+      "J20.9"
+    ],
+    "gold_concept_ids": [
+      255848,
+      254761
+    ]
+  },
+  {
+    "note_id": 4,
+    "age": 63,
+    "sex": "male",
+    "note": "CHIEF COMPLAINT: shortness of breath, normal appetite, headache, fever, heartburn, asymptomatic, chest discomfort. HPI: 63-year-old male with shortness of breath, normal appetite, headache, fever, heartburn, asymptomatic, chest discomfort. ASSESSMENT: Likely Pneumonia, Gastroesophageal reflux disease, Essential hypertension. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Pneumonia",
+      "Gastroesophageal reflux disease",
+      "Essential hypertension"
+    ],
+    "gold_icd10": [
+      "J18.9",
+      "K21.9",
+      "I10"
+    ],
+    "gold_concept_ids": [
+      255848,
+      314658,
+      320128
+    ]
+  },
+  {
+    "note_id": 5,
+    "age": 26,
+    "sex": "male",
+    "note": "CHIEF COMPLAINT: wheezing, shortness of breath, sleep disturbance. HPI: 26-year-old male with wheezing, shortness of breath, sleep disturbance. ASSESSMENT: Likely Asthma. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Asthma"
+    ],
+    "gold_icd10": [
+      "J45.909"
+    ],
+    "gold_concept_ids": [
+      317009
+    ]
+  },
+  {
+    "note_id": 6,
+    "age": 23,
+    "sex": "male",
+    "note": "CHIEF COMPLAINT: normal appetite, headache, wheezing, asymptomatic, chest tightness. HPI: 23-year-old male with normal appetite, headache, wheezing, asymptomatic, chest tightness. ASSESSMENT: Likely Essential hypertension, Asthma. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Essential hypertension",
+      "Asthma"
+    ],
+    "gold_icd10": [
+      "I10",
+      "J45.909"
+    ],
+    "gold_concept_ids": [
+      320128,
+      317009
+    ]
+  },
+  {
+    "note_id": 7,
+    "age": 36,
+    "sex": "female",
+    "note": "CHIEF COMPLAINT: low-grade fever, regurgitation, cough, chest discomfort, general weakness. HPI: 36-year-old female with low-grade fever, regurgitation, cough, chest discomfort, general weakness. ASSESSMENT: Likely Gastroesophageal reflux disease, Acute bronchitis. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Gastroesophageal reflux disease",
+      "Acute bronchitis"
+    ],
+    "gold_icd10": [
+      "K21.9",
+      "J20.9"
+    ],
+    "gold_concept_ids": [
+      314658,
+      254761
+    ]
+  },
+  {
+    "note_id": 8,
+    "age": 84,
+    "sex": "female",
+    "note": "CHIEF COMPLAINT: normal appetite, fatigue, blurred vision, low mood, regurgitation, chest discomfort. HPI: 84-year-old female with normal appetite, fatigue, blurred vision, low mood, regurgitation, chest discomfort. ASSESSMENT: Likely Gastroesophageal reflux disease, Depression, Type 2 diabetes mellitus. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Gastroesophageal reflux disease",
+      "Depression",
+      "Type 2 diabetes mellitus"
+    ],
+    "gold_icd10": [
+      "K21.9",
+      "F32.9",
+      "E11.9"
+    ],
+    "gold_concept_ids": [
+      314658,
+      440383,
+      201826
+    ]
+  },
+  {
+    "note_id": 9,
+    "age": 62,
+    "sex": "male",
+    "note": "CHIEF COMPLAINT: elevated cholesterol, asymptomatic, normal appetite. HPI: 62-year-old male with elevated cholesterol, asymptomatic, normal appetite. ASSESSMENT: Likely Hyperlipidemia. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Hyperlipidemia"
+    ],
+    "gold_icd10": [
+      "E78.5"
+    ],
+    "gold_concept_ids": [
+      432867
+    ]
+  },
+  {
+    "note_id": 10,
+    "age": 41,
+    "sex": "male",
+    "note": "CHIEF COMPLAINT: shortness of breath, polydipsia, fatigue, fever, sleep disturbance. HPI: 41-year-old male with shortness of breath, polydipsia, fatigue, fever, sleep disturbance. ASSESSMENT: Likely Type 2 diabetes mellitus, Pneumonia. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Type 2 diabetes mellitus",
+      "Pneumonia"
+    ],
+    "gold_icd10": [
+      "E11.9",
+      "J18.9"
+    ],
+    "gold_concept_ids": [
+      201826,
+      255848
+    ]
+  },
+  {
+    "note_id": 11,
+    "age": 82,
+    "sex": "male",
+    "note": "CHIEF COMPLAINT: elevated cholesterol, fatigue, asymptomatic. HPI: 82-year-old male with elevated cholesterol, fatigue, asymptomatic. ASSESSMENT: Likely Hyperlipidemia. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Hyperlipidemia"
+    ],
+    "gold_icd10": [
+      "E78.5"
+    ],
+    "gold_concept_ids": [
+      432867
+    ]
+  },
+  {
+    "note_id": 12,
+    "age": 77,
+    "sex": "female",
+    "note": "CHIEF COMPLAINT: suprapubic pain, general weakness, dysuria. HPI: 77-year-old female with suprapubic pain, general weakness, dysuria. ASSESSMENT: Likely Urinary tract infection. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Urinary tract infection"
+    ],
+    "gold_icd10": [
+      "N39.0"
+    ],
+    "gold_concept_ids": [
+      132797
+    ]
+  },
+  {
+    "note_id": 13,
+    "age": 85,
+    "sex": "female",
+    "note": "CHIEF COMPLAINT: general weakness, fever, cough. HPI: 85-year-old female with general weakness, fever, cough. ASSESSMENT: Likely Pneumonia. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Pneumonia"
+    ],
+    "gold_icd10": [
+      "J18.9"
+    ],
+    "gold_concept_ids": [
+      255848
+    ]
+  },
+  {
+    "note_id": 14,
+    "age": 42,
+    "sex": "female",
+    "note": "CHIEF COMPLAINT: suprapubic pain, headache, frequency, low mood, asymptomatic, anhedonia, sleep disturbance. HPI: 42-year-old female with suprapubic pain, headache, frequency, low mood, asymptomatic, anhedonia, sleep disturbance. ASSESSMENT: Likely Essential hypertension, Urinary tract infection, Depression. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Essential hypertension",
+      "Urinary tract infection",
+      "Depression"
+    ],
+    "gold_icd10": [
+      "I10",
+      "N39.0",
+      "F32.9"
+    ],
+    "gold_concept_ids": [
+      320128,
+      132797,
+      440383
+    ]
+  },
+  {
+    "note_id": 15,
+    "age": 82,
+    "sex": "female",
+    "note": "CHIEF COMPLAINT: shortness of breath, normal appetite, fatigue, polydipsia, fever. HPI: 82-year-old female with shortness of breath, normal appetite, fatigue, polydipsia, fever. ASSESSMENT: Likely Pneumonia, Type 2 diabetes mellitus. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Pneumonia",
+      "Type 2 diabetes mellitus"
+    ],
+    "gold_icd10": [
+      "J18.9",
+      "E11.9"
+    ],
+    "gold_concept_ids": [
+      255848,
+      201826
+    ]
+  },
+  {
+    "note_id": 16,
+    "age": 57,
+    "sex": "female",
+    "note": "CHIEF COMPLAINT: fatigue, regurgitation, chest discomfort, general weakness, weight gain. HPI: 57-year-old female with fatigue, regurgitation, chest discomfort, general weakness, weight gain. ASSESSMENT: Likely Obesity, Gastroesophageal reflux disease. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Obesity",
+      "Gastroesophageal reflux disease"
+    ],
+    "gold_icd10": [
+      "E66.9",
+      "K21.9"
+    ],
+    "gold_concept_ids": [
+      432851,
+      314658
+    ]
+  },
+  {
+    "note_id": 17,
+    "age": 60,
+    "sex": "male",
+    "note": "CHIEF COMPLAINT: shortness of breath, fatigue, wheezing, mild nausea, weight gain. HPI: 60-year-old male with shortness of breath, fatigue, wheezing, mild nausea, weight gain. ASSESSMENT: Likely Obesity, Asthma. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Obesity",
+      "Asthma"
+    ],
+    "gold_icd10": [
+      "E66.9",
+      "J45.909"
+    ],
+    "gold_concept_ids": [
+      432851,
+      317009
+    ]
+  },
+  {
+    "note_id": 18,
+    "age": 54,
+    "sex": "female",
+    "note": "CHIEF COMPLAINT: suprapubic pain, general weakness, frequency. HPI: 54-year-old female with suprapubic pain, general weakness, frequency. ASSESSMENT: Likely Urinary tract infection. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Urinary tract infection"
+    ],
+    "gold_icd10": [
+      "N39.0"
+    ],
+    "gold_concept_ids": [
+      132797
+    ]
+  },
+  {
+    "note_id": 19,
+    "age": 67,
+    "sex": "female",
+    "note": "CHIEF COMPLAINT: elevated cholesterol, headache, frequency, dysuria, dizziness, asymptomatic, sleep disturbance. HPI: 67-year-old female with elevated cholesterol, headache, frequency, dysuria, dizziness, asymptomatic, sleep disturbance. ASSESSMENT: Likely Essential hypertension, Hyperlipidemia, Urinary tract infection. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Essential hypertension",
+      "Hyperlipidemia",
+      "Urinary tract infection"
+    ],
+    "gold_icd10": [
+      "I10",
+      "E78.5",
+      "N39.0"
+    ],
+    "gold_concept_ids": [
+      320128,
+      432867,
+      132797
+    ]
+  },
+  {
+    "note_id": 20,
+    "age": 41,
+    "sex": "male",
+    "note": "CHIEF COMPLAINT: shortness of breath, fatigue, blurred vision, heartburn, regurgitation, cough, general weakness. HPI: 41-year-old male with shortness of breath, fatigue, blurred vision, heartburn, regurgitation, cough, general weakness. ASSESSMENT: Likely Gastroesophageal reflux disease, Pneumonia, Type 2 diabetes mellitus. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Gastroesophageal reflux disease",
+      "Pneumonia",
+      "Type 2 diabetes mellitus"
+    ],
+    "gold_icd10": [
+      "K21.9",
+      "J18.9",
+      "E11.9"
+    ],
+    "gold_concept_ids": [
+      314658,
+      255848,
+      201826
+    ]
+  },
+  {
+    "note_id": 21,
+    "age": 85,
+    "sex": "female",
+    "note": "CHIEF COMPLAINT: shortness of breath, cough, normal appetite. HPI: 85-year-old female with shortness of breath, cough, normal appetite. ASSESSMENT: Likely Pneumonia. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Pneumonia"
+    ],
+    "gold_icd10": [
+      "J18.9"
+    ],
+    "gold_concept_ids": [
+      255848
+    ]
+  },
+  {
+    "note_id": 22,
+    "age": 55,
+    "sex": "female",
+    "note": "CHIEF COMPLAINT: dysuria, suprapubic pain, sleep disturbance. HPI: 55-year-old female with dysuria, suprapubic pain, sleep disturbance. ASSESSMENT: Likely Urinary tract infection. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Urinary tract infection"
+    ],
+    "gold_icd10": [
+      "N39.0"
+    ],
+    "gold_concept_ids": [
+      132797
+    ]
+  },
+  {
+    "note_id": 23,
+    "age": 44,
+    "sex": "male",
+    "note": "CHIEF COMPLAINT: shortness of breath, cough, mild nausea. HPI: 44-year-old male with shortness of breath, cough, mild nausea. ASSESSMENT: Likely Pneumonia. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Pneumonia"
+    ],
+    "gold_icd10": [
+      "J18.9"
+    ],
+    "gold_concept_ids": [
+      255848
+    ]
+  },
+  {
+    "note_id": 24,
+    "age": 46,
+    "sex": "female",
+    "note": "CHIEF COMPLAINT: normal appetite, suprapubic pain, headache, dysuria, asymptomatic. HPI: 46-year-old female with normal appetite, suprapubic pain, headache, dysuria, asymptomatic. ASSESSMENT: Likely Urinary tract infection, Essential hypertension. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Urinary tract infection",
+      "Essential hypertension"
+    ],
+    "gold_icd10": [
+      "N39.0",
+      "I10"
+    ],
+    "gold_concept_ids": [
+      132797,
+      320128
+    ]
+  },
+  {
+    "note_id": 25,
+    "age": 55,
+    "sex": "male",
+    "note": "CHIEF COMPLAINT: fatigue, dizziness, asymptomatic. HPI: 55-year-old male with fatigue, dizziness, asymptomatic. ASSESSMENT: Likely Essential hypertension. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Essential hypertension"
+    ],
+    "gold_icd10": [
+      "I10"
+    ],
+    "gold_concept_ids": [
+      320128
+    ]
+  },
+  {
+    "note_id": 26,
+    "age": 54,
+    "sex": "male",
+    "note": "CHIEF COMPLAINT: shortness of breath, suprapubic pain, dysuria, cough, sleep disturbance. HPI: 54-year-old male with shortness of breath, suprapubic pain, dysuria, cough, sleep disturbance. ASSESSMENT: Likely Pneumonia, Urinary tract infection. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Pneumonia",
+      "Urinary tract infection"
+    ],
+    "gold_icd10": [
+      "J18.9",
+      "N39.0"
+    ],
+    "gold_concept_ids": [
+      255848,
+      132797
+    ]
+  },
+  {
+    "note_id": 27,
+    "age": 34,
+    "sex": "male",
+    "note": "CHIEF COMPLAINT: shortness of breath, normal appetite, fatigue, frequency, dysuria, weight gain, chest tightness. HPI: 34-year-old male with shortness of breath, normal appetite, fatigue, frequency, dysuria, weight gain, chest tightness. ASSESSMENT: Likely Urinary tract infection, Asthma, Obesity. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Urinary tract infection",
+      "Asthma",
+      "Obesity"
+    ],
+    "gold_icd10": [
+      "N39.0",
+      "J45.909",
+      "E66.9"
+    ],
+    "gold_concept_ids": [
+      132797,
+      317009,
+      432851
+    ]
+  },
+  {
+    "note_id": 28,
+    "age": 77,
+    "sex": "female",
+    "note": "CHIEF COMPLAINT: elevated cholesterol, sleep disturbance, asymptomatic. HPI: 77-year-old female with elevated cholesterol, sleep disturbance, asymptomatic. ASSESSMENT: Likely Hyperlipidemia. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Hyperlipidemia"
+    ],
+    "gold_icd10": [
+      "E78.5"
+    ],
+    "gold_concept_ids": [
+      432867
+    ]
+  },
+  {
+    "note_id": 29,
+    "age": 20,
+    "sex": "male",
+    "note": "CHIEF COMPLAINT: fever, shortness of breath, sleep disturbance. HPI: 20-year-old male with fever, shortness of breath, sleep disturbance. ASSESSMENT: Likely Pneumonia. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Pneumonia"
+    ],
+    "gold_icd10": [
+      "J18.9"
+    ],
+    "gold_concept_ids": [
+      255848
+    ]
+  },
+  {
+    "note_id": 30,
+    "age": 43,
+    "sex": "male",
+    "note": "CHIEF COMPLAINT: fatigue, polydipsia. HPI: 43-year-old male with fatigue, polydipsia. ASSESSMENT: Likely Type 2 diabetes mellitus. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Type 2 diabetes mellitus"
+    ],
+    "gold_icd10": [
+      "E11.9"
+    ],
+    "gold_concept_ids": [
+      201826
+    ]
+  },
+  {
+    "note_id": 31,
+    "age": 21,
+    "sex": "male",
+    "note": "CHIEF COMPLAINT: headache, dizziness, sleep disturbance. HPI: 21-year-old male with headache, dizziness, sleep disturbance. ASSESSMENT: Likely Essential hypertension. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Essential hypertension"
+    ],
+    "gold_icd10": [
+      "I10"
+    ],
+    "gold_concept_ids": [
+      320128
+    ]
+  },
+  {
+    "note_id": 32,
+    "age": 47,
+    "sex": "male",
+    "note": "CHIEF COMPLAINT: suprapubic pain, headache, frequency, low mood, asymptomatic, anhedonia, sleep disturbance. HPI: 47-year-old male with suprapubic pain, headache, frequency, low mood, asymptomatic, anhedonia, sleep disturbance. ASSESSMENT: Likely Urinary tract infection, Depression, Essential hypertension. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Urinary tract infection",
+      "Depression",
+      "Essential hypertension"
+    ],
+    "gold_icd10": [
+      "N39.0",
+      "F32.9",
+      "I10"
+    ],
+    "gold_concept_ids": [
+      132797,
+      440383,
+      320128
+    ]
+  },
+  {
+    "note_id": 33,
+    "age": 64,
+    "sex": "female",
+    "note": "CHIEF COMPLAINT: polyuria, fatigue, polydipsia. HPI: 64-year-old female with polyuria, fatigue, polydipsia. ASSESSMENT: Likely Type 2 diabetes mellitus. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Type 2 diabetes mellitus"
+    ],
+    "gold_icd10": [
+      "E11.9"
+    ],
+    "gold_concept_ids": [
+      201826
+    ]
+  },
+  {
+    "note_id": 34,
+    "age": 84,
+    "sex": "female",
+    "note": "CHIEF COMPLAINT: shortness of breath, chest tightness, mild nausea. HPI: 84-year-old female with shortness of breath, chest tightness, mild nausea. ASSESSMENT: Likely Asthma. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Asthma"
+    ],
+    "gold_icd10": [
+      "J45.909"
+    ],
+    "gold_concept_ids": [
+      317009
+    ]
+  },
+  {
+    "note_id": 35,
+    "age": 28,
+    "sex": "female",
+    "note": "CHIEF COMPLAINT: normal appetite, fatigue, heartburn, chest discomfort, weight gain. HPI: 28-year-old female with normal appetite, fatigue, heartburn, chest discomfort, weight gain. ASSESSMENT: Likely Gastroesophageal reflux disease, Obesity. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Gastroesophageal reflux disease",
+      "Obesity"
+    ],
+    "gold_icd10": [
+      "K21.9",
+      "E66.9"
+    ],
+    "gold_concept_ids": [
+      314658,
+      432851
+    ]
+  },
+  {
+    "note_id": 36,
+    "age": 51,
+    "sex": "male",
+    "note": "CHIEF COMPLAINT: shortness of breath, fatigue, blurred vision, asymptomatic, sleep disturbance, chest tightness. HPI: 51-year-old male with shortness of breath, fatigue, blurred vision, asymptomatic, sleep disturbance, chest tightness. ASSESSMENT: Likely Obesity, Asthma, Type 2 diabetes mellitus. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Obesity",
+      "Asthma",
+      "Type 2 diabetes mellitus"
+    ],
+    "gold_icd10": [
+      "E66.9",
+      "J45.909",
+      "E11.9"
+    ],
+    "gold_concept_ids": [
+      432851,
+      317009,
+      201826
+    ]
+  },
+  {
+    "note_id": 37,
+    "age": 59,
+    "sex": "male",
+    "note": "CHIEF COMPLAINT: fatigue, dizziness, asymptomatic, anhedonia. HPI: 59-year-old male with fatigue, dizziness, asymptomatic, anhedonia. ASSESSMENT: Likely Depression, Essential hypertension. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Depression",
+      "Essential hypertension"
+    ],
+    "gold_icd10": [
+      "F32.9",
+      "I10"
+    ],
+    "gold_concept_ids": [
+      440383,
+      320128
+    ]
+  },
+  {
+    "note_id": 38,
+    "age": 82,
+    "sex": "female",
+    "note": "CHIEF COMPLAINT: sputum, low-grade fever, normal appetite. HPI: 82-year-old female with sputum, low-grade fever, normal appetite. ASSESSMENT: Likely Acute bronchitis. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Acute bronchitis"
+    ],
+    "gold_icd10": [
+      "J20.9"
+    ],
+    "gold_concept_ids": [
+      254761
+    ]
+  },
+  {
+    "note_id": 39,
+    "age": 56,
+    "sex": "female",
+    "note": "CHIEF COMPLAINT: elevated cholesterol, fatigue, asymptomatic. HPI: 56-year-old female with elevated cholesterol, fatigue, asymptomatic. ASSESSMENT: Likely Hyperlipidemia. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Hyperlipidemia"
+    ],
+    "gold_icd10": [
+      "E78.5"
+    ],
+    "gold_concept_ids": [
+      432867
+    ]
+  },
+  {
+    "note_id": 40,
+    "age": 40,
+    "sex": "male",
+    "note": "CHIEF COMPLAINT: fatigue, weight gain, low mood, normal appetite. HPI: 40-year-old male with fatigue, weight gain, low mood, normal appetite. ASSESSMENT: Likely Obesity, Depression. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Obesity",
+      "Depression"
+    ],
+    "gold_icd10": [
+      "E66.9",
+      "F32.9"
+    ],
+    "gold_concept_ids": [
+      432851,
+      440383
+    ]
+  },
+  {
+    "note_id": 41,
+    "age": 46,
+    "sex": "female",
+    "note": "CHIEF COMPLAINT: chest discomfort, general weakness, heartburn. HPI: 46-year-old female with chest discomfort, general weakness, heartburn. ASSESSMENT: Likely Gastroesophageal reflux disease. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Gastroesophageal reflux disease"
+    ],
+    "gold_icd10": [
+      "K21.9"
+    ],
+    "gold_concept_ids": [
+      314658
+    ]
+  },
+  {
+    "note_id": 42,
+    "age": 66,
+    "sex": "female",
+    "note": "CHIEF COMPLAINT: fatigue, sleep disturbance, anhedonia. HPI: 66-year-old female with fatigue, sleep disturbance, anhedonia. ASSESSMENT: Likely Depression. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Depression"
+    ],
+    "gold_icd10": [
+      "F32.9"
+    ],
+    "gold_concept_ids": [
+      440383
+    ]
+  },
+  {
+    "note_id": 43,
+    "age": 39,
+    "sex": "female",
+    "note": "CHIEF COMPLAINT: shortness of breath, headache, wheezing, dizziness, fever, cough, sleep disturbance. HPI: 39-year-old female with shortness of breath, headache, wheezing, dizziness, fever, cough, sleep disturbance. ASSESSMENT: Likely Essential hypertension, Asthma, Pneumonia. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Essential hypertension",
+      "Asthma",
+      "Pneumonia"
+    ],
+    "gold_icd10": [
+      "I10",
+      "J45.909",
+      "J18.9"
+    ],
+    "gold_concept_ids": [
+      320128,
+      317009,
+      255848
+    ]
+  },
+  {
+    "note_id": 44,
+    "age": 76,
+    "sex": "female",
+    "note": "CHIEF COMPLAINT: chest discomfort, heartburn, fatigue. HPI: 76-year-old female with chest discomfort, heartburn, fatigue. ASSESSMENT: Likely Gastroesophageal reflux disease. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Gastroesophageal reflux disease"
+    ],
+    "gold_icd10": [
+      "K21.9"
+    ],
+    "gold_concept_ids": [
+      314658
+    ]
+  },
+  {
+    "note_id": 45,
+    "age": 71,
+    "sex": "female",
+    "note": "CHIEF COMPLAINT: elevated cholesterol, fatigue, heartburn, regurgitation, asymptomatic. HPI: 71-year-old female with elevated cholesterol, fatigue, heartburn, regurgitation, asymptomatic. ASSESSMENT: Likely Hyperlipidemia, Gastroesophageal reflux disease. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Hyperlipidemia",
+      "Gastroesophageal reflux disease"
+    ],
+    "gold_icd10": [
+      "E78.5",
+      "K21.9"
+    ],
+    "gold_concept_ids": [
+      432867,
+      314658
+    ]
+  },
+  {
+    "note_id": 46,
+    "age": 74,
+    "sex": "female",
+    "note": "CHIEF COMPLAINT: fatigue, frequency, dysuria, heartburn, regurgitation. HPI: 74-year-old female with fatigue, frequency, dysuria, heartburn, regurgitation. ASSESSMENT: Likely Gastroesophageal reflux disease, Urinary tract infection. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Gastroesophageal reflux disease",
+      "Urinary tract infection"
+    ],
+    "gold_icd10": [
+      "K21.9",
+      "N39.0"
+    ],
+    "gold_concept_ids": [
+      314658,
+      132797
+    ]
+  },
+  {
+    "note_id": 47,
+    "age": 52,
+    "sex": "female",
+    "note": "CHIEF COMPLAINT: fatigue, sleep disturbance, asymptomatic. HPI: 52-year-old female with fatigue, sleep disturbance, asymptomatic. ASSESSMENT: Likely Obesity. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Obesity"
+    ],
+    "gold_icd10": [
+      "E66.9"
+    ],
+    "gold_concept_ids": [
+      432851
+    ]
+  },
+  {
+    "note_id": 48,
+    "age": 41,
+    "sex": "female",
+    "note": "CHIEF COMPLAINT: heartburn, regurgitation, sleep disturbance. HPI: 41-year-old female with heartburn, regurgitation, sleep disturbance. ASSESSMENT: Likely Gastroesophageal reflux disease. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Gastroesophageal reflux disease"
+    ],
+    "gold_icd10": [
+      "K21.9"
+    ],
+    "gold_concept_ids": [
+      314658
+    ]
+  },
+  {
+    "note_id": 49,
+    "age": 85,
+    "sex": "female",
+    "note": "CHIEF COMPLAINT: polyuria, elevated cholesterol, polydipsia, asymptomatic, mild nausea. HPI: 85-year-old female with polyuria, elevated cholesterol, polydipsia, asymptomatic, mild nausea. ASSESSMENT: Likely Hyperlipidemia, Type 2 diabetes mellitus. PLAN: Further evaluation recommended.",
+    "gold_diagnoses": [
+      "Hyperlipidemia",
+      "Type 2 diabetes mellitus"
+    ],
+    "gold_icd10": [
+      "E78.5",
+      "E11.9"
+    ],
+    "gold_concept_ids": [
+      432867,
+      201826
+    ]
+  }
+]

@@ -1,0 +1,58 @@
+🧪 Level 1 — very simple (should be perfect now)
+1. Diabetes (your current focus)
+Patient with type 2 diabetes mellitus on metformin.
+No complications reported.
+
+✅ Expected: E11.9
+-------------------------------------------------------------------------------
+2. Hypertension
+Patient with essential hypertension.
+
+✅ Expected: I10
+
+3. Asthma
+Patient with asthma.
+
+✅ Expected: J45.909 (or J45. generic asthma code)*
+
+🧪 Level 2 — mild ambiguity
+4. Diabetes + unclear severity
+Patient has long-standing type 2 diabetes mellitus.
+
+✔ Expected: E11 or E11.9
+(should NOT jump to complications)
+
+5. Hypertension + medication
+Patient has hypertension, currently on lisinopril.
+
+✔ Expected: I10
+
+6. Hyperlipidemia
+Patient with high cholesterol.
+
+✔ Expected: E78.5
+
+🧪 Level 3 — trick cases (VERY important for your paper)
+7. Diabetes + possible complication signal
+Patient with type 2 diabetes mellitus and proteinuria.
+
+✔ Expected: E11.21 (diabetic nephropathy-related)
+
+8. Diabetes but explicitly normal
+Type 2 diabetes mellitus, no evidence of complications.
+
+✔ Expected: E11.9 (strong requirement)
+
+9. COPD
+Patient with chronic obstructive pulmonary disease.
+
+✔ Expected: J44.9
+
+🧪 Level 4 — noise robustness
+10. messy clinical note
+Pt hx DM2, HTN, on metformin and lisinopril, stable.
+
+✔ Expected:
+
+E11.9
+I10

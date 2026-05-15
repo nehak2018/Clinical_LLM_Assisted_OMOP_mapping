@@ -1,0 +1,169 @@
+20 Level-1 Simple Clinical Notes
+1. Type 2 Diabetes
+Patient with type 2 diabetes mellitus.
+Expected:
+
+✔ E11 / E11.9
+Pass
+--------------------------------------------------------------------
+2. Diabetes without complications
+Patient with type 2 diabetes mellitus on metformin. No complications reported.
+Expected:
+
+✔ E11.9
+Pass
+--------------------------------------------------------------------
+4. Essential hypertension
+Patient with essential hypertension.
+Expected:
+
+✔ I10
+Pass
+---------------------------------------------------------------------
+
+5. Asthma
+Patient with asthma.
+Expected:
+
+✔ J45.9 / J45.909
+
+pass
+---------------------------------------------------------------------
+12. Obesity
+Patient with obesity.
+Expected:
+
+✔ E66.9
+pass
+---------------------------------------------------------------------
+11. Hypothyroidism
+Patient with hypothyroidism.
+Expected:
+
+✔ E03.9
+pass
+---------------------------------------------------------------------
+7. Hyperlipidemia
+Patient with hyperlipidemia.
+Expected:
+
+✔ E78.5
+pass
+---------------------------------------------------------------------
+13. Depression
+Patient with depression.
+Expected:
+
+✔ F32.A / F32.9
+pass
+
+---------------------------------------------------------------------
+14. Anxiety
+Patient with anxiety.
+Expected:
+
+✔ F41.9
+pass
+
+---------------------------------------------------------------------
+16. Chronic kidney disease
+Patient with chronic kidney disease.
+Expected:
+
+✔ N18.9
+pass
+Selected ICD: { "icd": "N18.9", "concept_id": "46271022", "concept_name": "Chronic kidney disease, unspecified", "standard_concept_id": "46271022", "standard_concept_name": "Chronic kidney disease", "reason": "Best matches as it is the most specific and clinically supported code for chronic kidney disease without specified stage.", "brief_justification": "Rejected N18.1, N18.2, N18.3, N18.5, N18.30, N18.31, N18.32, I12 as they specify a stage or a different type of kidney disease." }
+---------------------------------------------------------------------
+
+
+19. Migraine
+Patient with migraine.
+Expected:
+
+✔ G43.909
+pass 
+
+Selected ICD: { "icd": "G43.9", "concept_id": "1568344", "concept_name": "Migraine, unspecified", "standard_concept_id": "318736", "standard_concept_name": "Migraine", "reason": "This code best matches the clinical note as it specifies 'unspecified' migraine without further specification of aura or intractability.", "brief_justification": "G43.0 was rejected because it specifies 'without aura', which is not mentioned in the clinical note." }
+
+---------------------------------------------------------------------
+20. Anemia
+Patient with anemia.
+Expected:
+
+✔ D64.9
+pass
+
+Selected ICD: { "icd": "D64.9", "concept_id": "35206757", "concept_name": "Anemia, unspecified", "standard_concept_id": "439777", "standard_concept_name": "Anemia", "reason": "Best matches as the clinical note only mentions anemia without specifying a type or cause.", "brief_justification": "P61.2 and D46.4 rejected due to lack of specificity, O99.01 and O99.02 rejected due to unrelated pregnancy complications" }
+---------------------------------------------------------------------
+
+---------------------------------------------------------------------
+---------------------------------------------------------------------
+8. High cholesterol
+Patient with high cholesterol.
+Expected:
+
+✔ E78.5
+
+NOT passed
+Nothing found in ranked candidate
+---------------------------------------------------------------------
+6. COPD
+Patient with chronic obstructive pulmonary disease.
+Expected:
+
+✔ J44.9
+NOT Passed
+---------------------------------------------------------------------
+3. Hypertension
+Patient with hypertension.
+Expected:
+
+✔ I10
+NOT passed
+
+--------------------------------------------------------------------
+9. GERD
+Patient with gastroesophageal reflux disease.
+Expected:
+
+✔ K21.9
+NOT Passed
+---------------------------------------------------------------------
+
+10. Acid reflux
+Patient with acid reflux.
+Expected:
+
+✔ K21.9
+NOT PAssed
+---------------------------------------------------------------------
+
+15. Osteoarthritis
+Patient with osteoarthritis.
+Expected:
+
+✔ M19.90 (or location-specific if inferred)
+
+not passed as it precidented "with" knee but they found in ranked candidate
+Selected ICD: { "icd": "M17.9", "concept_id": "35208776", "concept_name": "Osteoarthritis of knee, unspecified", "standard_concept_id": "4079750", "standard_concept_name": "Osteoarthritis of knee", "reason": "This code best matches the clinical note as it specifies osteoarthritis of the knee, which is a common site for osteoarthritis.", "brief_justification": "Other candidates were less appropriate as they did not specify the knee joint, making M17.9 the most specific and clinically supported choice." }
+
+---------------------------------------------------------------------
+17. Coronary artery disease
+Patient with coronary artery disease.
+Expected:
+
+✔ I25.10
+
+not passed it precidented "with" agina 
+Selected ICD: { "icd": "I25.11", "concept_id": "1569135", "concept_name":"Atherosclerotic heart disease of native coronary artery with angina pectoris", "standard_concept_id": "36712983", "standard_concept_name":"Angina co-occurrent and due to coronary arteriosclerosis", "reason": "Best matches the clinical note as it specifies atherosclerotic heart disease of native coronary artery with angina pectoris.", "brief_justification": "" }
+---------------------------------------------------------------------
+18. Heart failure
+Patient with heart failure.
+Expected:
+
+✔ I50.9
+NOt passed
+
+It had 150.9 unspecified in rank candidates however it select below
+Selected ICD: { "icd": "I50", "concept_id": "1569178", "concept_name":"Heart failure", "standard_concept_id": "316139", "standard_concept_name": "Heart failure", "reason": "Most specific clinically supported and primary code for heart failure", "brief_justification": "" }
+---------------------------------------------------------------------

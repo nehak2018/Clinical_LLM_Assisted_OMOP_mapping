@@ -1,0 +1,56 @@
+Full TRUE grounded flow
+Step 1 — Clinical note
+Example:
+
+“Patient with longstanding type 2 diabetes on metformin”
+
+Step 2 — LLM extracts core condition
+Prompt:
+
+“Extract the primary diagnosis in concise clinical terms.”
+
+Output:
+
+“type 2 diabetes mellitus”
+
+Step 3 — Athena retrieval + ranking
+
+Your retriever:
+
+Input:
+
+“type 2 diabetes mellitus”
+
+Output (ranked):
+1. E11 | Type 2 diabetes mellitus
+2. E11.9 | Type 2 diabetes mellitus without complications
+3. 44054006 | Diabetes mellitus type 2 (SNOMED)
+4. E11.65 | Type 2 diabetes mellitus with hyperglycemia
+Step 4 — LLM constrained selection (THIS is where LLM comes back)
+
+Now you feed:
+
+Original note + ranked candidates
+Prompt:
+You are a clinical coding assistant.
+
+Clinical Note:
+Patient with longstanding type 2 diabetes on metformin.
+
+Candidate ICD codes from Athena:
+1. E11 | Type 2 diabetes mellitus
+2. E11.9 | Type 2 diabetes mellitus without complications
+3. E11.65 | Type 2 diabetes mellitus with hyperglycemia
+
+Task:
+Select the SINGLE best ICD code ONLY from this list.
+Do not generate a new code.
+Return:
+- Selected ICD
+- Concept ID
+- Brief justification
+Step 5 — Final answer
+Example:
+E11.9
+Concept ID: XXXXX
+Justification: Type 2 diabetes is documented without stated complications.
