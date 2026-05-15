@@ -1,18 +1,32 @@
 import sys
 import os
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
+import pandas as pd
+import json
 import streamlit as st
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from src.llms.engine import rule_based, hf_model, call_ollama, parse_llm_output
+from src.llms.engine import rule_based, hf_model, call_ollama, parse_llm_output, run_llama_extract_condition, run_llama_select_icd
 from src.utils.hf_loader import load_model
 from src.utils.mapping import map_to_omop
-import pandas as pd
+from src.utils.athena_lookup import lookup_icd_to_omop
+from src.utils.athena_validator import build_icd_index, is_valid_icd
+from db.save_results import save_result
+from src.utils.athena_retriever import AthenaRetriever
+# ===================================================================================================================
 
+@st.cache_resource
+def load_retriever():
+    return AthenaRetriever(
+        concept_path="../data/athena/CONCEPT.csv",
+        concept_relationship_path="../data/athena/CONCEPT_RELATIONSHIP.csv",
+        use_embeddings=False
+    )
+
+retriever = load_retriever()
+
+# ===================================================================================================================
 st.set_page_config(layout="wide")
 st.title("🧠 OMOP Multi-LLM Playground")
-
 # Session state
 if "results" not in st.session_state:
     st.session_state.results = {}
@@ -33,12 +47,9 @@ def run_all(note, hf_pipeline):
         "Qwen3",
         "Phi-4-mini"
     ]
-
     results = {}
-
     for m in models:
         results[m] = run_model(m, note, hf_pipeline)
-
     return results
 
 def run_model(name, text):
@@ -122,21 +133,9 @@ if st.button("⚡ Run All Models"):
     status.empty()
     st.success("All models completed!")
 
-#col1, col2 = st.columns(2)
-#with col1:
-#    if st.button("Run Rule-Based"):
-#        st.session_state.results["Rule-Based"] = rule_based(note)
-
-#with col2:
-#    if st.button("Run HF"):
-        #st.session_state.results["HF"] = hf_model(note, hf_pipeline)
-#        st.session_state.results["HF"] = run_model("HF", note, hf_pipeline)
-
-
 col3, col4, col5, col6, col7, col8 = st.columns(6)
 with col3:
     if st.button("Run Llama 3.2"):
-        #st.session_state.results["Llama 3.2"] = call_ollama("llama3.2", note)
         st.session_state.results["Llama 3.2"] = run_model("Llama 3.2", note)
 
 with col4:
@@ -175,9 +174,6 @@ st.subheader("📊 Outputs")
 for model, preds in st.session_state.results.items():
     st.markdown(f"### {model}")
     st.write("Raw output:", preds)
-    #Write a logic for directly llm promt with concept mapping for NON-Grounded pipeline
-    #st.write("Non grounded pipeline:")
-    #st.write("ICD:", preds[0])
     parsed = parse_llm_output(preds)
     st.subheader("📊 Extracted NON Grounded Diagnoses + ICD + OMOP")
     if parsed:
@@ -190,16 +186,52 @@ for model, preds in st.session_state.results.items():
             }),
         use_container_width=False
         )
-    
-    st.write("Coming soon:")
+    note_id = save_result(
+         model=model,
+         note_text=note,
+         raw_preds= preds,
+         icd_validation=parsed,
+         grounded_results=parsed
+     )
+    st.write("Saved")
+    st.write(note_id)
+    #---------------------------------------------
+    st.subheader("📊 Extracted Grounded Diagnoses + ICD + OMOP")
     st.write("Grounded pipeline:")
+    #----------------------------------------------------
+    #New grounded pipeline : 
+    #condition = run_llama_extract_condition(note)
+    condition = run_llama_extract_condition("llama3.2", note)
+    st.write("condition:", condition)
 
+    # Step 1: retrieve all candidates (no cut yet)
+    candidates = retriever.grounded_candidates(condition, method="keyword")
+    st.write("Candidates retrieved:", len(candidates), "rows")
+    st.write("candidates retrived:", candidates)
+    
+    ranked_candidates = retriever.rank_candidates( query=condition, candidates_df=candidates, note=note, top_k=200)
+    st.write("Full Ranked :", len(ranked_candidates), "rows")
+    st.write("Full Ranked candidates:", ranked_candidates)
 
-    #----------------------------------------------------------------------------------------------
-    #st.write("OMOP:", map_to_omop(preds[0]))
-    #here it is taking it from Hardcoded sample.py which will be using by Athena which will be grounded pipeline
-    #st.write("OMOP:", map_to_omop(preds[0]))
-    #Actual mapping from CSV
-    #omop_results = lookup_icd_to_omop(preds)
-    #st.write("OMOP:")
-    #st.json(omop_results)
+    # Only show ICD10CM to the selector LLM
+    top_candidates = ranked_candidates[ ranked_candidates["vocabulary_id"] == "ICD10CM"].head(10)
+    
+    # candidatesWithSnomed = retriever.add_standard_mappings(top_candidates)
+    # st.write("candidates after snomed:", candidatesWithSnomed)
+    # candidate_text = retriever.format_candidates_for_llm(candidatesWithSnomed)
+    # st.write("candidate_text:", candidate_text)
+    # final = run_llama_select_icd( "llama3.2", note=note, candidates=candidate_text)
+    # st.write("Selected ICD:", final)
+
+    # Guard: if empty, don't call LLM at all
+    if top_candidates.empty:
+        st.warning(
+            f"No ICD10CM candidates found for: '{condition}'. "
+            "Try rephrasing or check Athena vocabulary coverage."
+        )
+    else:
+        candidatesWithSnomed = retriever.add_standard_mappings(top_candidates)
+        candidate_text = retriever.format_candidates_for_llm(candidatesWithSnomed)
+        st.write("candidate_text:", candidate_text)
+        final = run_llama_select_icd("llama3.2", note=note, candidates=candidate_text)
+        st.write("Selected ICD:", final)

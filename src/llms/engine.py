@@ -37,7 +37,6 @@ Clinical Note:
 """
 
 
-
 TEXT_TO_ICD = {
     "diabetes": "E11.9",
     "hypertension": "I10",
@@ -74,7 +73,6 @@ def hf_model(text, hf_pipeline):
     return list(set(icds))
 
 
-
 def call_ollama(model, note):
     try:
         response = requests.post(
@@ -97,6 +95,30 @@ def call_ollama(model, note):
     except Exception as e:
         return [], str(e)
 
+def call_ollama_grounded(model, PROMPT_for_grounded):
+    try:
+        response = requests.post(
+            "http://localhost:11434/api/generate",
+            json={
+                "model": model,
+                "prompt": PROMPT_for_grounded,
+                "stream": False
+            },
+            timeout=120
+        )
+        # IMPORTANT: show real error if request fails
+        response.raise_for_status()
+
+        data = response.json()
+        output = data.get("response")
+
+        if output is None:
+            return f"ERROR: No response field. Full response: {data}"
+
+        return output.strip()
+        #return response.json().get("response", "").strip()
+    except Exception as e:
+        return f"ERROR: {str(e)}"
 
 def parse_llm_output(raw_output):
     """
@@ -165,70 +187,136 @@ def parse_llm_output(raw_output):
         return results
 
 
-'''
+# def run_llama_extract_condition(model, note):
+#     PROMPT_for_grounded = f"""
+#     Extract the primary diagnosis from this clinical note:
+#     {note}
+#     Return only the condition phrase.
+#     """
+#     return call_ollama_grounded(model, PROMPT_for_grounded)
 
-# =========================
-# PARSER
-# =========================
-def parse_llm_output(raw_output):
+def run_llama_extract_condition(model, note):
+    PROMPT_for_grounded = f"""
+    You are an information extraction system.
+
+    TASK:
+    Extract ONLY the medical condition or primary diagnosis mentioned in the clinical note.
+
+    RULES:
+    - Output MUST be a single medical concept or short phrase
+    - DO NOT include explanations
+    - DO NOT include sentences
+    - DO NOT include phrases like "possible", "likely", "could be", "based on context"
+    - DO NOT add punctuation or quotes
+    - If multiple conditions exist, return ONLY the primary one
+    - If no clear diagnosis exists, return: UNKNOWN
+
+    CLINICAL NOTE:
+    {note}
+
+    OUTPUT:
     """
-    Attempts to extract list of dictionaries from LLM output.
-    Falls back to regex if formatting is messy.
+    return call_ollama_grounded(model, PROMPT_for_grounded)
+
+
+
+def run_llama_select_icd(model, note, candidates):
+    PROMPT_for_grounded_icd = f"""
+    You are a clinical coding assistant specialized in ICD-10-CM coding.
+
+    Clinical Note:
+    {note}
+
+    Candidate ICD codes:
+    {candidates}
+
+    Task:
+    Select EXACTLY ONE ICD-10-CM candidate FROM THE PROVIDED LIST ONLY.
+
+    Rules:
+    - Prefer most specific clinically supported and primary code
+    - You MUST choose ONLY from the candidates list above
+    - You MUST select an ICD-10-CM code (format: letter + digits, e.g. E11.9, I10, J18.9)
+    - Do NOT select SNOMED codes (SNOMED codes are long numeric strings like 1030411000000101)
+    - Copy icd, concept_id, concept_name, standard_concept_id, standard_concept_name EXACTLY from the candidate 
+    - Do NOT invent or modify any field
+    - Do NOT use external knowledge
+
+    For the reason field:
+    - Explain in 1 sentence WHY this ICD code best matches the clinical note
+    - Reference specific clinical terms from the note (e.g. "Note mentions type 2 diabetes without complications")
+
+    For the brief_justification field:
+    - Explain in 1 sentence WHY you rejected the other candidates
+    - Reference what made them less appropriate (e.g. "E11.21 rejected as note has no mention of diabetic kidney disease")
+
+
+    Return ONLY valid JSON, no extra text:
+
+    {{
+    "icd": "",
+    "concept_id": "",
+    "concept_name":"",
+    "standard_concept_id":"",
+    "standard_concept_name":"",
+    "reason": ""
+    "brief_justification" :""
+    }}
     """
-    try:
-        # Extract probable list block
-        start = raw_output.find("[")
-        end = raw_output.rfind("]") + 1
-
-        parsed_text = raw_output[start:end]
-
-        # Convert single quotes to double quotes if needed
-        parsed_text = parsed_text.replace("'", '"')
-
-        data = json.loads(parsed_text)
-
-        return data
-
-    except:
-        # Fallback regex extraction
-        diagnoses = re.findall(r'"diagnosis":\s*"([^"]+)"', raw_output)
-        icds = re.findall(r'"icd10":\s*"([A-Z]\d{2}(?:\.\d+)?)"', raw_output)
-        omops = re.findall(r'"omop_concept_id":\s*(\d+)', raw_output)
-
-        results = []
-
-        for i in range(min(len(diagnoses), len(icds), len(omops))):
-            results.append({
-                "diagnosis": diagnoses[i],
-                "icd10": icds[i],
-                "omop_concept_id": int(omops[i])
-            })
-
-        return results
+    return call_ollama_grounded(model, PROMPT_for_grounded_icd)
 
 
-Backup
-def call_ollama(model, note):
-    try:
-        response = requests.post(
-            "http://localhost:11434/api/generate",
-            json={
-                "model": model,
-                "prompt": PROMPT + "\n\n" + note,
-                "stream": False
-            },
-            timeout=120
-        )
+# def run_llama_select_icd(model, note, candidates):
+#     PROMPT_for_grounded_icd = f"""
+#     You are a clinical coding assistant specialized in ICD-10-CM coding.
 
-        output = response.json().get("response", "")
+#     Clinical Note:
+#     {note}
 
-        # Extract ICD codes
-        codes = re.findall(r"[A-Z]\d{1,2}(?:\.\d+)?", output)
+#     Candidate ICD codes:
+#     {candidates}
 
-        codes = sorted(list(set(codes)))
+#     Task:
+#     Select EXACTLY ONE candidate FROM THE PROVIDED LIST ONLY.
+#     Select EXACTLY ONE ICD-10-CM candidate FROM THE PROVIDED LIST ONLY.
 
-        return list(set(codes)), output
+#     Rules:
+#     - You MUST choose ONLY from candidates
+#     - Prefer most specific clinically supported code
+#     - Copy ICD code EXACTLY from candidate
+#     - Copy concept_id EXACTLY from candidate
+#     - Copy concept_name EXACTLY from candidate
+#     - Copy standard_concept_id EXACTLY from candidate
+#     - Copy standard_concept_name EXACTLY from candidate
+#     - Do NOT invent or modify concept_id
+#     - Do NOT use external knowledge
 
-    except Exception as e:
-        return [], str(e)
-'''
+
+#     Return ONLY valid JSON:
+
+#     {{
+#     "icd": "",
+#     "concept_id": "",
+#     "concept_name":"",
+#     "standard_concept_id":"",
+#     "standard_concept_name":"",
+#     "reason": ""
+#     "brief justification" :""
+#     }}
+#     """
+#     return call_ollama_grounded(model, PROMPT_for_grounded_icd)
+
+
+
+# def run_llama_select_icd(model, note, candidates):
+#     PROMPT_for_grounded_icd = f"""
+#     You are a clinical coding assistant.
+#     Clinical Note:
+#     {note}
+#     Candidate ICD codes:
+#     {candidates}
+#     Select ONLY ONE ICD code from the list.
+#     Return:
+#     ICD code + concept_id + brief justification
+#     """
+#     return call_ollama_grounded(model, PROMPT_for_grounded_icd)
