@@ -1,0 +1,28 @@
+
+CREATE TABLE runs (
+    run_id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    note_id INTEGER,
+    note_text TEXT,
+
+    model TEXT,              -- e.g., llama3.2
+    mode TEXT,               -- grounded / ungrounded
+
+    -- LLM outputs
+    raw_prediction TEXT,     -- ungrounded output (JSON or text)
+    grounded_final TEXT,     -- final grounded JSON (stringified)
+
+    -- Extracted final structured fields (optional but useful for SQL queries)
+    icd_code TEXT,
+    concept_id TEXT,
+    concept_name TEXT,
+    standard_concept_id TEXT,
+    standard_concept_name TEXT,
+
+    -- evaluation
+    expected_icd TEXT,
+    is_correct INTEGER,      -- 1 / 0
+    icd_validation TEXT,     -- pass / fail / partial
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

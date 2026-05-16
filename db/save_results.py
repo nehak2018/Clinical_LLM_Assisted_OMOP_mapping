@@ -25,7 +25,8 @@ def get_next_note_id(model: str) -> int:
     return next_id
 
 
-def save_result(model, note_text, raw_preds, icd_validation, grounded_results):
+def save_result(model, note_text, raw_preds, icd_validation, grounded_results, grounded_extracted_condition, grounded_all_candidates,grounded_ranked_candidates, grounded_top_candidates, grounded_top_candidates_withSnomed, grounded_candidate_text, grounded_final
+):
     """
     Save one processed note result to SQLite.
     """
@@ -41,16 +42,30 @@ def save_result(model, note_text, raw_preds, icd_validation, grounded_results):
             note_text,
             raw_preds,
             icd_validation,
-            grounded_results
+            grounded_results,
+            grounded_extracted_condition,
+            grounded_all_candidates,
+            grounded_ranked_candidates,
+            grounded_top_candidates,
+            grounded_top_candidates_withSnomed,
+            grounded_candidate_text,
+            grounded_final
         )
-        VALUES (?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     """, (
         note_id,
         model,
         note_text,
         json.dumps(raw_preds),
         json.dumps(icd_validation),
-        json.dumps(grounded_results)
+        json.dumps(grounded_results),
+        grounded_extracted_condition,
+        grounded_all_candidates,
+        grounded_ranked_candidates,
+        grounded_top_candidates,
+        grounded_top_candidates_withSnomed,
+        grounded_candidate_text,
+        grounded_final
     ))
 
     conn.commit()

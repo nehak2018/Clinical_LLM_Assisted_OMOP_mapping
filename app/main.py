@@ -165,9 +165,9 @@ with col8:
         st.session_state.results["Phi-4-mini"] = run_model("Phi-4-mini", note, hf_pipeline)
 
 
-# =========================
+# ===============================================================================================
 # RESULTS
-# =========================
+# ===============================================================================================
 st.divider()
 st.subheader("📊 Outputs")
 
@@ -186,15 +186,7 @@ for model, preds in st.session_state.results.items():
             }),
         use_container_width=False
         )
-    note_id = save_result(
-         model=model,
-         note_text=note,
-         raw_preds= preds,
-         icd_validation=parsed,
-         grounded_results=parsed
-     )
-    st.write("Saved")
-    st.write(note_id)
+
     #---------------------------------------------
     st.subheader("📊 Extracted Grounded Diagnoses + ICD + OMOP")
     st.write("Grounded pipeline:")
@@ -206,22 +198,23 @@ for model, preds in st.session_state.results.items():
 
     # Step 1: retrieve all candidates (no cut yet)
     candidates = retriever.grounded_candidates(condition, method="keyword")
+    candidates_records = candidates.to_dict(orient="records")
+    candidates_json = json.dumps(candidates_records)
     st.write("Candidates retrieved:", len(candidates), "rows")
     st.write("candidates retrived:", candidates)
     
     ranked_candidates = retriever.rank_candidates( query=condition, candidates_df=candidates, note=note, top_k=200)
+    ranked_candidates_records = ranked_candidates.to_dict(orient="records")
+    ranked_candidates_json = json.dumps(ranked_candidates_records)
     st.write("Full Ranked :", len(ranked_candidates), "rows")
     st.write("Full Ranked candidates:", ranked_candidates)
 
     # Only show ICD10CM to the selector LLM
     top_candidates = ranked_candidates[ ranked_candidates["vocabulary_id"] == "ICD10CM"].head(10)
-    
-    # candidatesWithSnomed = retriever.add_standard_mappings(top_candidates)
-    # st.write("candidates after snomed:", candidatesWithSnomed)
-    # candidate_text = retriever.format_candidates_for_llm(candidatesWithSnomed)
-    # st.write("candidate_text:", candidate_text)
-    # final = run_llama_select_icd( "llama3.2", note=note, candidates=candidate_text)
-    # st.write("Selected ICD:", final)
+    top_candidates_records = top_candidates.to_dict(orient="records")
+    top_candidates_json = json.dumps(top_candidates_records)
+    st.write("top_candidates :", len(top_candidates), "rows")
+    st.write("top_candidates :", top_candidates)
 
     # Guard: if empty, don't call LLM at all
     if top_candidates.empty:
@@ -231,7 +224,31 @@ for model, preds in st.session_state.results.items():
         )
     else:
         candidatesWithSnomed = retriever.add_standard_mappings(top_candidates)
+        candidatesWithSnomed_records = candidatesWithSnomed.to_dict(orient="records")
+        candidatesWithSnomed_json = json.dumps(candidatesWithSnomed_records)
+        st.write("top_candidates SNOMED Mapping :", len(candidatesWithSnomed), "rows")
+        st.write("top_candidates SNOMED Mapping:", candidatesWithSnomed)
+
         candidate_text = retriever.format_candidates_for_llm(candidatesWithSnomed)
         st.write("candidate_text:", candidate_text)
+        
         final = run_llama_select_icd("llama3.2", note=note, candidates=candidate_text)
+        final_json = json.dumps(final)
         st.write("Selected ICD:", final)
+    
+        note_id = save_result(
+            model=model,
+            note_text=note,
+            raw_preds= preds,
+            icd_validation="",
+            grounded_results="",
+            grounded_extracted_condition = condition,
+            grounded_all_candidates = candidates_json,
+            grounded_ranked_candidates = ranked_candidates_json,
+            grounded_top_candidates = top_candidates_json,
+            grounded_top_candidates_withSnomed = candidatesWithSnomed_json,
+            grounded_candidate_text = candidate_text,
+            grounded_final = final_json
+        )
+        st.write("Saved")
+        st.write(note_id)

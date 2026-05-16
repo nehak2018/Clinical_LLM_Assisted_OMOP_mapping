@@ -31,3 +31,14 @@ TO DO :
 7. Brief report
 1. Append LLM ICD judge
 -----------------------------------------------------------------------------------------------------
+
+
+
+🔥 Then future work:
+Level-2:
+abbreviations
+medications
+negation
+multi-morbidity
+
+
